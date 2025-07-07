@@ -1,5 +1,34 @@
 import { PDFDocument } from "pdf-lib";
 
+export const base64ToUint8Array = async (base64String) => {
+  try {
+    // Use fetch with data URL for efficient handling of large data
+    const response = await fetch(`data:application/pdf;base64,${base64String}`);
+    const arrayBuffer = await response.arrayBuffer();
+    return new Uint8Array(arrayBuffer);
+  } catch (error) {
+    console.error("Error converting base64 to Uint8Array:", error);
+    throw error;
+  }
+};
+
+export const uint8ArrayToBase64 = (uint8Array) => {
+  try {
+    let binaryString = '';
+    const chunkSize = 8192; // Process 8KB at a time
+    
+    for (let i = 0; i < uint8Array.length; i += chunkSize) {
+      const chunk = uint8Array.subarray(i, i + chunkSize);
+      binaryString += String.fromCharCode.apply(null, chunk);
+    }
+    
+    return btoa(binaryString);
+  } catch (error) {
+    console.error("Error converting Uint8Array to base64:", error);
+    throw error;
+  }
+};
+
 export const loadTemplate = (templateId) => {
   try {
     const savedTemplates = localStorage.getItem("pdfTemplates");
@@ -55,14 +84,14 @@ export const mergePdfs = async (pdfFiles) => {
     const mergedPdf = await PDFDocument.create();
     
     for (const pdfFile of pdfFiles) {
-      const pdfBytes = Uint8Array.from(atob(pdfFile.data), c => c.charCodeAt(0));
+      const pdfBytes = await base64ToUint8Array(pdfFile.data);
       const pdf = await PDFDocument.load(pdfBytes);
       const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
       pages.forEach(page => mergedPdf.addPage(page));
     }
 
     const mergedPdfBytes = await mergedPdf.save();
-    return btoa(String.fromCharCode(...mergedPdfBytes));
+    return uint8ArrayToBase64(mergedPdfBytes);
   } catch (error) {
     console.error("Error merging PDFs:", error);
     throw error;

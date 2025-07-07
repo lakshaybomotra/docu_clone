@@ -4,6 +4,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { Rnd } from "react-rnd";
 import { v4 as uuidv4 } from "uuid";
 import { PDFDocument } from "pdf-lib";
+import { base64ToUint8Array, uint8ArrayToBase64 } from "../utils/templateUtils";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./TemplateEditor.css";
@@ -88,14 +89,7 @@ const TemplateEditor = () => {
         const arrayBuffer = await file.arrayBuffer();
         const uint8Array = new Uint8Array(arrayBuffer);
         
-        // Convert uint8Array to base64 in chunks to avoid call stack overflow
-        let binaryString = '';
-        const chunkSize = 8192; // Process 8KB at a time
-        for (let i = 0; i < uint8Array.length; i += chunkSize) {
-          const chunk = uint8Array.subarray(i, i + chunkSize);
-          binaryString += String.fromCharCode.apply(null, chunk);
-        }
-        const base64 = btoa(binaryString);
+        const base64 = uint8ArrayToBase64(uint8Array);
         
         newPdfFiles.push({
           id: uuidv4(),
@@ -139,7 +133,7 @@ const TemplateEditor = () => {
       
       for (const pdfFile of templateToUpdate.pdfFiles) {
         try {
-          const pdfBytes = Uint8Array.from(atob(pdfFile.data), c => c.charCodeAt(0));
+          const pdfBytes = await base64ToUint8Array(pdfFile.data);
           const pdf = await PDFDocument.load(pdfBytes);
           const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
           pages.forEach(page => mergedPdf.addPage(page));
@@ -151,7 +145,7 @@ const TemplateEditor = () => {
       }
 
       const mergedPdfBytes = await mergedPdf.save();
-      const mergedBase64 = btoa(String.fromCharCode(...mergedPdfBytes));
+      const mergedBase64 = uint8ArrayToBase64(mergedPdfBytes);
 
       const updatedTemplate = {
         ...templateToUpdate,
@@ -172,14 +166,7 @@ const TemplateEditor = () => {
     const arrayBuffer = await newFile.arrayBuffer();
     const uint8Array = new Uint8Array(arrayBuffer);
     
-    // Convert uint8Array to base64 in chunks to avoid call stack overflow
-    let binaryString = '';
-    const chunkSize = 8192; // Process 8KB at a time
-    for (let i = 0; i < uint8Array.length; i += chunkSize) {
-      const chunk = uint8Array.subarray(i, i + chunkSize);
-      binaryString += String.fromCharCode.apply(null, chunk);
-    }
-    const base64 = btoa(binaryString);
+    const base64 = uint8ArrayToBase64(uint8Array);
 
     const updatedPdfFiles = template.pdfFiles.map(pdf => 
       pdf.id === pdfId 
