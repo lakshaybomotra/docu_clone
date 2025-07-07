@@ -1,4 +1,5 @@
 import { useState, useRef, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Rnd } from "react-rnd";
 import { v4 as uuidv4 } from "uuid";
@@ -13,10 +14,14 @@ import RadioConfigDialog from "./RadioConfigDialog";
 import DropdownConfigDialog from "./DropdownConfigDialog";
 import BulkRadioDialog from "./BulkRadioDialog";
 import CheckboxConfigDialog from "./CheckboxConfigDialog";
+import { loadTemplate } from "./utils/templateUtils";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
 function App() {
+  const [searchParams] = useSearchParams();
+  const templateId = searchParams.get('template');
+  
   const [file, setFile] = useState(null);
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
@@ -32,6 +37,20 @@ function App() {
   const [showCheckboxConfig, setShowCheckboxConfig] = useState(false);
   const [configFieldId, setConfigFieldId] = useState(null);
   const [editingGroup, setEditingGroup] = useState(null);
+
+  // Load template if templateId is provided
+  useState(() => {
+    if (templateId) {
+      const template = loadTemplate(templateId);
+      if (template && template.mergedPdfData) {
+        const pdfBlob = new Blob([
+          Uint8Array.from(atob(template.mergedPdfData), c => c.charCodeAt(0))
+        ], { type: 'application/pdf' });
+        setFile(pdfBlob);
+        setFields(template.fields || []);
+      }
+    }
+  }, [templateId]);
 
   // ========= Helper: Group Bounding Boxes for Radio Groups =========
   const groupBounds = useMemo(() => {

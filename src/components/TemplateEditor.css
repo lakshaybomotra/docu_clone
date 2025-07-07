@@ -1,0 +1,362 @@
+.template-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.template-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.back-btn {
+  background: none;
+  border: 1px solid #6c757d;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+.template-editor-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.save-status {
+  color: #28a745;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.template-editor-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.template-sidebar {
+  width: 280px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.sidebar-section h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.pdf-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pdf-item {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.pdf-info {
+  margin-bottom: 8px;
+}
+
+.pdf-name {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+.pdf-size {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.pdf-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.replace-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+.replace-btn:hover {
+  background-color: #0056b3;
+}
+
+.remove-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+.remove-btn:hover {
+  background-color: #c82333;
+}
+
+.field-types {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-type {
+  padding: 10px;
+  background: white;
+  border: 2px dashed #6c757d;
+  border-radius: 4px;
+  cursor: move;
+  text-align: center;
+  font-size: 14px;
+  color: #495057;
+  transition: all 0.2s;
+}
+
+.field-type:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.field-type.bulk-radio {
+  background-color: #e3f2fd;
+  border-color: #2196f3;
+  color: #1976d2;
+}
+
+.template-main {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+  background-color: #f5f5f5;
+}
+
+.pdf-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.page-container {
+  position: relative;
+  margin: 0;
+}
+
+.react-pdf__Page {
+  position: relative;
+  z-index: 1;
+}
+
+.react-pdf__Page canvas {
+  position: relative;
+  z-index: 1 !important;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  border: 1px solid #dee2e6;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.no-pdf-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.no-pdf-state h3 {
+  margin-bottom: 10px;
+  color: #495057;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #6c757d;
+}
+
+/* Field styles (reused from App.css) */
+.field {
+  height: 100%;
+  background: rgba(255, 255, 0, 0.1);
+  border: 2px solid #2196f3;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+}
+
+.field input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 2px;
+  background: none;
+  font-size: 16px;
+  box-sizing: border-box;
+  min-width: 0;
+  font-family: inherit;
+}
+
+.field input:focus {
+  outline: none;
+}
+
+.field input[type="date"] {
+  padding: 0 2px;
+}
+
+.field input[type="checkbox"] {
+  width: 20px !important;
+  height: 20px !important;
+  margin: 0;
+  cursor: pointer;
+}
+
+.field input[type="checkbox"] + label {
+  margin-left: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.field:has(input[type="checkbox"]) {
+  min-width: 100px;
+  min-height: 30px;
+  padding: 5px;
+}
+
+/* Resizable handle styles */
+.react-resizable-handle {
+  position: absolute;
+  width: 16px !important;
+  height: 16px !important;
+  background: #2196f3;
+  z-index: 100;
+  border-radius: 2px;
+}
+
+.react-resizable-handle::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 2px solid #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.react-resizable-handle-se,
+.react-resizable-handle-sw,
+.react-resizable-handle-nw,
+.react-resizable-handle-ne {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.react-resizable-handle-se {
+  right: -8px !important;
+  bottom: -8px !important;
+  cursor: nwse-resize;
+}
+
+.react-resizable-handle-sw {
+  left: -8px !important;
+  bottom: -8px !important;
+  cursor: nesw-resize;
+}
+
+.react-resizable-handle-nw {
+  left: -8px !important;
+  top: -8px !important;
+  cursor: nwse-resize;
+}
+
+.react-resizable-handle-ne {
+  right: -8px !important;
+  top: -8px !important;
+  cursor: nesw-resize;
+}
