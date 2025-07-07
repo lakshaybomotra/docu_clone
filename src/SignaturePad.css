@@ -1,0 +1,48 @@
+.signature-pad-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.signature-canvas {
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.signature-pad-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.signature-pad-buttons button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+
+.signature-pad-buttons button:first-child {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.signature-pad-buttons button:nth-child(2) {
+  background-color: #0071e3;
+  color: white;
+  border-color: #0071e3;
+}
+
+.signature-pad-buttons button:last-child {
+  background-color: #f5f5f5;
+  color: #333;
+}

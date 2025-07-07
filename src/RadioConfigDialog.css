@@ -1,0 +1,128 @@
+.radio-config-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.radio-config-dialog {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.radio-config-dialog h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.config-section {
+  margin-bottom: 20px;
+}
+
+.config-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.config-section select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.option-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.option-row input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.remove-btn {
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.remove-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.add-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-btn:hover {
+  background: #0056b3;
+}
+
+.config-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.save-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.save-btn:hover {
+  background: #218838;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cancel-btn:hover {
+  background: #5a6268;
+}

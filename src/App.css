@@ -1,0 +1,337 @@
+/* Layout */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar,
+.properties-sidebar {
+  padding: 20px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+}
+
+.sidebar {
+  width: 250px;
+  border-right-width: 1px;
+}
+
+.properties-sidebar {
+  width: 300px;
+  border-left-width: 1px;
+}
+
+/* Common Form Elements */
+.sidebar select,
+.property-group input,
+.property-group select,
+.recipient-section select {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.sidebar select {
+  margin-bottom: 10px;
+}
+
+/* Button Styles */
+.sidebar button.add-recipient-button,
+.recipient-section .add-recipient-button,
+.save-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.sidebar button.add-recipient-button {
+  margin-bottom: 20px;
+  background-color: #4caf50;
+}
+
+.recipient-section .add-recipient-button {
+  background-color: #1890ff;
+}
+
+.recipient-section .add-recipient-button:hover {
+  background-color: #40a9ff;
+}
+
+.save-button {
+  margin-top: 20px;
+  background-color: #2196f3;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.save-button:hover {
+  background-color: #1976d2;
+}
+
+/* Field Styles */
+.field-type {
+  padding: 10px;
+  margin: 10px 0;
+  background: white;
+  border: 2px dashed #666;
+  cursor: move;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.field {
+  height: 100%;
+  background: rgba(255, 255, 0, 0.1);
+  border: 2px solid #2196f3;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+}
+
+.field input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 2px;
+  background: none;
+  font-size: 16px;
+  box-sizing: border-box;
+  min-width: 0;
+  font-family: inherit;
+}
+
+.field input:focus {
+  outline: none;
+}
+
+/* For date inputs to properly size */
+.field input[type="date"] {
+  padding: 0 2px;
+}
+
+/* Add these styles for the delete button */
+.delete-field-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 10;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  background-color: #ff4d4f;
+  color: white;
+  font: bold 16px/1;
+  cursor: pointer;
+}
+
+/* PDF Container Styles */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.pdf-container {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.page-container {
+  position: relative;
+  margin: 20px 0;
+}
+
+.react-pdf__Page {
+  position: relative;
+  z-index: 1;
+}
+
+.react-pdf__Page canvas {
+  position: relative;
+  z-index: 1 !important;
+}
+
+/* Resizable Handle Styles */
+.react-resizable-handle {
+  position: absolute;
+  width: 16px !important;
+  height: 16px !important;
+  background: #2196f3;
+  z-index: 100;
+  border-radius: 2px;
+}
+
+.react-resizable-handle::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 2px solid #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.react-resizable-handle-se,
+.react-resizable-handle-sw,
+.react-resizable-handle-nw,
+.react-resizable-handle-ne {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.react-resizable-handle-se {
+  right: -8px !important;
+  bottom: -8px !important;
+  cursor: nwse-resize;
+}
+
+.react-resizable-handle-sw {
+  left: -8px !important;
+  bottom: -8px !important;
+  cursor: nesw-resize;
+}
+
+.react-resizable-handle-nw {
+  left: -8px !important;
+  top: -8px !important;
+  cursor: nwse-resize;
+}
+
+.react-resizable-handle-ne {
+  right: -8px !important;
+  top: -8px !important;
+  cursor: nesw-resize;
+}
+
+/* Modal Styles */
+.recipient-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.recipient-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  min-width: 300px;
+}
+
+/* Property Sidebar Specific */
+.properties-sidebar h3 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 18px;
+}
+
+.field-properties {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.property-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.property-group label {
+  font-weight: 500;
+  color: #666;
+}
+
+.property-group input[type="checkbox"] {
+  width: auto;
+}
+
+.no-field-selected {
+  color: #666;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Miscellaneous */
+.rnd-container {
+  z-index: 2;
+  position: absolute;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.signature-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.signature-pad-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signature-canvas {
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.signature-pad-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+
+
+.field input[type="checkbox"] {
+  width: 20px !important;
+  height: 20px !important;
+  margin: 0;
+  cursor: pointer;
+}
+
+.field input[type="checkbox"] + label {
+  margin-left: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Make checkbox fields have a minimum size */
+.field:has(input[type="checkbox"]) {
+  min-width: 100px;
+  min-height: 30px;
+  padding: 5px;
+}
