@@ -80,16 +80,26 @@ const TemplateEditor = () => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
 
+    console.log("Processing", files.length, "files");
+
     const newPdfFiles = [];
     for (const file of files) {
-      const arrayBuffer = await file.arrayBuffer();
-      const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-      newPdfFiles.push({
-        id: uuidv4(),
-        name: file.name,
-        data: base64,
-        size: file.size
-      });
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const uint8Array = new Uint8Array(arrayBuffer);
+        const base64 = btoa(String.fromCharCode.apply(null, uint8Array));
+        newPdfFiles.push({
+          id: uuidv4(),
+          name: file.name,
+          data: base64,
+          size: file.size
+        });
+        console.log("Processed file:", file.name);
+      } catch (error) {
+        console.error("Error processing file:", file.name, error);
+        alert(`Error processing file ${file.name}: ${error.message}`);
+        return;
+      }
     }
 
     const updatedTemplate = {
@@ -98,23 +108,37 @@ const TemplateEditor = () => {
       updatedAt: new Date().toISOString()
     };
 
+    console.log("Updated template with", updatedTemplate.pdfFiles.length, "total PDFs");
+
     // Merge PDFs if multiple files
     if (updatedTemplate.pdfFiles.length > 1) {
       await mergePdfs(updatedTemplate);
     } else {
+      // For single PDF, set it as merged data
+      updatedTemplate.mergedPdfData = newPdfFiles[0].data;
       saveTemplate(updatedTemplate);
     }
+
+    // Clear the file input
+    e.target.value = '';
   };
 
   const mergePdfs = async (templateToUpdate) => {
     try {
+      console.log("Merging", templateToUpdate.pdfFiles.length, "PDFs");
       const mergedPdf = await PDFDocument.create();
       
       for (const pdfFile of templateToUpdate.pdfFiles) {
-        const pdfBytes = Uint8Array.from(atob(pdfFile.data), c => c.charCodeAt(0));
-        const pdf = await PDFDocument.load(pdfBytes);
-        const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-        pages.forEach(page => mergedPdf.addPage(page));
+        try {
+          const pdfBytes = Uint8Array.from(atob(pdfFile.data), c => c.charCodeAt(0));
+          const pdf = await PDFDocument.load(pdfBytes);
+          const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+          pages.forEach(page => mergedPdf.addPage(page));
+          console.log("Merged PDF:", pdfFile.name);
+        } catch (error) {
+          console.error("Error merging PDF:", pdfFile.name, error);
+          throw new Error(`Failed to merge ${pdfFile.name}: ${error.message}`);
+        }
       }
 
       const mergedPdfBytes = await mergedPdf.save();
@@ -125,6 +149,7 @@ const TemplateEditor = () => {
         mergedPdfData: mergedBase64
       };
 
+      console.log("PDF merge completed successfully");
       saveTemplate(updatedTemplate);
     } catch (error) {
       console.error("Error merging PDFs:", error);
@@ -177,10 +202,18 @@ const TemplateEditor = () => {
   const getCurrentPdfData = () => {
     if (!template) return null;
     if (template.pdfFiles.length === 0) return null;
+    
+    console.log("Getting current PDF data. Files:", template.pdfFiles.length, "Merged data exists:", !!template.mergedPdfData);
+    
     if (template.pdfFiles.length === 1) {
       return `data:application/pdf;base64,${template.pdfFiles[0].data}`;
     }
-    return template.mergedPdfData ? `data:application/pdf;base64,${template.mergedPdfData}` : null;
+    
+    if (template.mergedPdfData) {
+      return `data:application/pdf;base64,${template.mergedPdfData}`;
+    }
+    
+    return null;
   };
 
   const onDocumentLoadSuccess = ({ numPages }) => {
@@ -378,6 +411,7 @@ const TemplateEditor = () => {
               accept="application/pdf"
               onChange={handlePdfUpload}
               style={{ marginBottom: "10px" }}
+              key={template.pdfFiles.length} // Force re-render to clear input
             />
             
             <div className="pdf-list">
